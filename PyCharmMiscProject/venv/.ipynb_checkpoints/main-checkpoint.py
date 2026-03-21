@@ -3,7 +3,6 @@ from fastapi.openapi.docs import get_swagger_ui_html
 import uvicorn
 import time
 import asyncio
-import threading
 
 app = FastAPI()
 
@@ -15,10 +14,9 @@ hotels = [
 
 @app.get("/sync/{id}")
 def sync_func(id: int):
-    print(f"sync. Потоков: {threading.active_count()}")
     print(f"sync. Начал {id}: {time.time(): .2f}")
     time.sleep(3)
-    print(f"sync. Закончил {id}: {time.time(): .2f}")
+    print(f"sync. Начал {id}: {time.time(): .2f}")
 
 @app.get("/hotels", summary="Получение данных об отеле")
 def get_hotels(
