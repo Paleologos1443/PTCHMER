@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, Body
+from fastapi import FastAPI, Query, Body, Path
 from fastapi.openapi.docs import get_swagger_ui_html
 import uvicorn
 
@@ -12,7 +12,7 @@ hotels = [
 ]
 
 
-@app.get("/hotels")
+@app.get("/hotels", summary="Получение данных об отеле")
 def get_hotels(
         id: int | None = Query(default=None, description="ID"),
         title: str | None = Query(default=None, description="Hotel's Name"),
@@ -27,7 +27,7 @@ def get_hotels(
     return hotels_
 
 
-@app.post("/hotels")
+@app.post("/hotels", summary="Добавление нового отеля")
 def create_hotel(
         title: str = Body(embed=True),
 ):
@@ -39,7 +39,7 @@ def create_hotel(
     return {"status": "OK"}
 
 
-@app.put("/hotels/{id}")
+@app.put("/hotels/{id}", summary="Полное обновление данных об отеле")
 def put_hotel(
         id: int,
         title: str = Body(embed=True),
@@ -52,7 +52,7 @@ def put_hotel(
             return {"status": "OK", "hotel": hotel}
 
 
-@app.patch("/hotels/{id}")
+@app.patch("/hotels/{id}", summary="Частичное обновление данных об отеле")
 def patch_hotel(
         id: int,
         title: str | None = Body(default=None, embed=True),
@@ -66,7 +66,7 @@ def patch_hotel(
                 hotel["name"] = name
             return {"status": "OK", "hotel": hotel}
 
-@app.delete("/hotel/{hotel_id}")
+@app.delete("/hotel/{hotel_id}", summary="Удалить отель из базы данных")
 def delete_hotel(hotel_id: int):
     global hotels
     hotels = [hotel for hotel in hotels if hotel["id"] != hotel_id]
